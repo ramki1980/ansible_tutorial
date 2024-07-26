@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+
+  tasks: 
+    - name: Clear cache
+      apt:
+        update_cache: true
+
+    - name: Install apache
+      apt:
+        name: apache2

@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  become: true
+  tasks: 
+    - name: Clear cache
+      apt:
+        update_cache: true
+
+    - name: remove apache
+      apt:
+        name: apache2
+        state: absent

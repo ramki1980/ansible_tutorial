@@ -1,7 +1,8 @@
-[defaults]
+[ubu]
 ubuntu1
 ubuntu2
 ubuntu3
+[cen]
 centos1
 centos2
 centos3

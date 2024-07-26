@@ -1,0 +1,205 @@
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$ ansible-playbook --list-tags site.yaml
+
+playbook: site.yaml
+
+  play #1 (all): all    TAGS: []
+      TASK TAGS: [always]
+
+  play #2 (webservers): webservers      TAGS: []
+      TASK TAGS: [apache, apache2, centos, httpd, ubuntu]
+
+  play #3 (dbservers): dbservers        TAGS: []
+      TASK TAGS: [centos, db, mariadb, ubuntu]
+
+  play #4 (fileservers): fileservers    TAGS: []
+      TASK TAGS: [samba]
+
+
+
+
+
+
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$ ansible-playbook --tags centos site.yaml
+
+PLAY [all] ***************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+fatal: [ubuntu1]: FAILED! => {"msg": "Missing sudo password"}
+fatal: [ubuntu2]: FAILED! => {"msg": "Missing sudo password"}
+fatal: [ubuntu3]: FAILED! => {"msg": "Missing sudo password"}
+ok: [centos1]
+ok: [centos3]
+ok: [centos2]
+
+TASK [install updates (centos)] ******************************************************************************************
+ok: [centos2]
+ok: [centos3]
+ok: [centos1]
+
+TASK [install updates (ubuntu)] ******************************************************************************************
+skipping: [centos1]
+skipping: [centos2]
+skipping: [centos3]
+
+PLAY [webservers] ********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos1]
+
+TASK [install apache & php for ansible servers] **************************************************************************
+ok: [centos1]
+
+PLAY [dbservers] *********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos2]
+
+TASK [install mariadb packages (centos)] *********************************************************************************
+ok: [centos2]
+
+PLAY [fileservers] *******************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos3]
+
+PLAY RECAP ***************************************************************************************************************
+centos1                    : ok=4    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos2                    : ok=4    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos3                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu1                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+ubuntu3                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$ ansible-playbook --tags dbservers site.yaml -b -K
+BECOME password:
+
+PLAY [all] ***************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos1]
+ok: [centos3]
+ok: [ubuntu2]
+ok: [centos2]
+ok: [ubuntu1]
+ok: [ubuntu3]
+
+TASK [install updates (centos)] ******************************************************************************************
+skipping: [ubuntu1]
+skipping: [ubuntu2]
+skipping: [ubuntu3]
+ok: [centos3]
+ok: [centos1]
+ok: [centos2]
+
+TASK [install updates (ubuntu)] ******************************************************************************************
+skipping: [centos1]
+skipping: [centos2]
+skipping: [centos3]
+ok: [ubuntu2]
+ok: [ubuntu1]
+ok: [ubuntu3]
+
+PLAY [webservers] ********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [ubuntu1]
+ok: [centos1]
+
+PLAY [dbservers] *********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+PLAY [fileservers] *******************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos3]
+ok: [ubuntu3]
+
+PLAY RECAP ***************************************************************************************************************
+centos1                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos3                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu1                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu3                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$
+
+
+
+
+ansible@ubuntu-c:~/jay-LearnLinuxTV/ansible_tutorial/chapter-3_Tags$ ansible-playbook --tag apache site.yaml -b -K
+BECOME password:
+
+PLAY [all] ***************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos2]
+ok: [centos3]
+ok: [centos1]
+ok: [ubuntu2]
+ok: [ubuntu1]
+ok: [ubuntu3]
+
+TASK [install updates (centos)] ******************************************************************************************
+skipping: [ubuntu1]
+skipping: [ubuntu2]
+skipping: [ubuntu3]
+ok: [centos3]
+ok: [centos2]
+ok: [centos1]
+
+TASK [install updates (ubuntu)] ******************************************************************************************
+skipping: [centos1]
+skipping: [centos2]
+skipping: [centos3]
+ok: [ubuntu2]
+ok: [ubuntu1]
+ok: [ubuntu3]
+
+PLAY [webservers] ********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [ubuntu1]
+ok: [centos1]
+
+TASK [install apache & php for ubuntu servers] ***************************************************************************
+skipping: [centos1]
+ok: [ubuntu1]
+
+TASK [install apache & php for ansible servers] **************************************************************************
+skipping: [ubuntu1]
+ok: [centos1]
+
+PLAY [dbservers] *********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos2]
+ok: [ubuntu2]
+
+PLAY [fileservers] *******************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [centos3]
+ok: [ubuntu3]
+
+PLAY RECAP ***************************************************************************************************************
+centos1                    : ok=4    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+centos2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos3                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu1                    : ok=4    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ubuntu3                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+ansible-playbook --list-tags site.yaml -b -K
+ansible-playbook --tags site.yaml -b -K
+ansible-playbook --tags dbservers site.yaml -b -K
+ansible-playbook --tags apache site.yaml -b -K
+ansible-playbook --tags "apache,dbservers" site.yaml -b -K
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

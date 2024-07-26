@@ -1,0 +1,9 @@
+- hosts: centos
+  tasks:
+    - name: uninstalling httpd & php packages
+      dnf:
+        name:
+          - httpd
+          - php
+      when: ansible_distribution == "CentOS"
+

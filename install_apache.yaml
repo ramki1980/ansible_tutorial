@@ -1,12 +1,24 @@
 ---
 
 - hosts: all
-
-  tasks: 
-    - name: Clear cache
+  become: true
+  tasks:
+    - name: install apache2 package
       apt:
+        name: 
+          - "{{ php_package }}"
+          - "{{ apache_package }}"
+        state: latest
         update_cache: true
+      when: ansible_distribution == "Ubuntu"
 
-    - name: Install apache
-      apt:
-        name: apache2
+    - name: install httpd package
+      dnf:
+        name:
+          - "{{ php_package }}"
+          - "{{ apache_package }}"
+        state: latest
+        update_cache: true
+      when: ansible_distribution == "CentOS"
+
+

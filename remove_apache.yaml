@@ -1,13 +1,15 @@
 ---
-
-- hosts: all
+- hosts: ubuntu
   become: true
-  tasks: 
-    - name: Clear cache
-      apt:
+  tasks:
+    - name: clean cache
+      apt: 
         update_cache: true
-
-    - name: remove apache
+    - name: uninstall apache2 & php packages
       apt:
-        name: apache2
+        name:
+          - apache2
+          - libapache2-mod-php
         state: absent
+      when: ansible_distribution == "Ubuntu"
+

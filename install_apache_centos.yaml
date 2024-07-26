@@ -1,0 +1,11 @@
+- hosts: all
+  user: root
+  tasks:
+    - name: add php package on centos
+      dnf:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"  
+        state: latest
+        update_cache: true
+      when: ansible_distribution == "CentOS"

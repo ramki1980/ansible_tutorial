@@ -1,12 +1,12 @@
 
 [webservers]
 ubuntu1 apache_package=apache2 php_package=libapache2-mod-php
-centos1 ansible_port=2222 apache_package=httpd php_package=php
+centos1 ansible_port=2222 apache_package=httpd php_package=php ansible_user=root
 
 [dbservers]
 ubuntu2 apache_package=apache2 php_package=libapache2-mod-php
-centos2 apache_package=httpd php_package=php
+centos2 apache_package=httpd php_package=php ansible_user=root
 
 [fileservers]
-centos3 apache_package=httpd php_package=php
+centos3 apache_package=httpd php_package=php ansible_user=root
 ubuntu3 apache_package=apache2 php_package=libapache2-mod-php
